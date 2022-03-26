@@ -141,7 +141,7 @@ var personalDetail = {
 function deepClone(object){
 	var newObject = {};
 	for(var key in object){
-		if(typeof object[key] === 'object'  && object[key] !== null ){
+		if(typeof object[key] === 'object'){
 		 newObject[key] = deepClone(object[key]);
 		}else{
 		 newObject[key] = object[key];
@@ -153,3 +153,18 @@ function deepClone(object){
 var newObject = deepClone(personalDetail);
 console.log(newObject)
 
+function deepCloneIteratively(object){
+	var newObject = {};
+	for(var key in object){
+		if(typeof object[key] === 'object'  && object[key] !== null ){
+            for(let nestedKey in object[key]){
+
+            }
+		}else{
+		 newObject[key] = object[key];
+		}
+	}
+	return newObject;
+}
+
+var newObject = deepClone(personalDetail);
