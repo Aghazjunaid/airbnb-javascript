@@ -1,0 +1,742 @@
+{
+      title: 'Titanic',
+      year: 1997,
+      genres: [ 'Drama', 'Romance' ],
+      rated: 'PG-13',
+      languages: [ 'English', 'French', 'German', 'Swedish', 'Italian', 'Russian' ],
+      released: ISODate("1997-12-19T00:00:00.000Z"),
+      awards: {
+         wins: 127,
+         nominations: 63,
+         text: 'Won 11 Oscars. Another 116 wins & 63 nominations.'
+      },
+      cast: [ 'Leonardo DiCaprio', 'Kate Winslet', 'Billy Zane', 'Kathy Bates' ],
+      directors: [ 'James Cameron' ]
+   },
+   {
+      title: 'The Dark Knight',
+      year: 2008,
+      genres: [ 'Action', 'Crime', 'Drama' ],
+      rated: 'PG-13',
+      languages: [ 'English', 'Mandarin' ],
+      released: ISODate("2008-07-18T00:00:00.000Z"),
+      awards: {
+         wins: 144,
+         nominations: 106,
+         text: 'Won 2 Oscars. Another 142 wins & 106 nominations.'
+      },
+      cast: [ 'Christian Bale', 'Heath Ledger', 'Aaron Eckhart', 'Michael Caine' ],
+      directors: [ 'Christopher Nolan' ]
+   },
+   {
+      title: 'Spirited Away',
+      year: 2001,
+      genres: [ 'Animation', 'Adventure', 'Family' ],
+      rated: 'PG',
+      languages: [ 'Japanese' ],
+      released: ISODate("2003-03-28T00:00:00.000Z"),
+      awards: {
+         wins: 52,
+         nominations: 22,
+         text: 'Won 1 Oscar. Another 51 wins & 22 nominations.'
+      },
+      cast: [ 'Rumi Hiiragi', 'Miyu Irino', 'Mari Natsuki', 'Takashi Naitè' ],
+      directors: [ 'Hayao Miyazaki' ]
+   },
+   {
+      title: 'Casablanca',
+      genres: [ 'Drama', 'Romance', 'War' ],
+      rated: 'PG',
+      cast: [ 'Humphrey Bogart', 'Ingrid Bergman', 'Paul Henreid', 'Claude Rains' ],
+      languages: [ 'English', 'French', 'German', 'Italian' ],
+      released: ISODate("1943-01-23T00:00:00.000Z"),
+      directors: [ 'Michael Curtiz' ],
+      awards: {
+         wins: 9,
+         nominations: 6,
+         text: 'Won 3 Oscars. Another 6 wins & 6 nominations.'
+      },
+      lastupdated: '2015-09-04 00:22:54.600000000',
+      year: 1942
+   }
+
+
+1. db.getCollection('products').find({year:{$lte : 2000}})
+2. db.getCollection('products').find({year:{$gte : 2000}})
+3. db.getCollection('products').find({year:{$lte : 2010, $gte: 1990}})
+4. db.getCollection('products').find({$and: [{genres : "Drama"}]})
+5. db.getCollection('products').find({$and: [{languages : { $in: ["English","French"]}} ]})
+6. db.getCollection('products').find({$and: [{languages : { $in: ["English","French"]}}, {genres: "Romance"} ]})
+7. db.getCollection('products').find({"awards.wins" : 9})
+8. db.getCollection('products').find({released: {$lt : ISODate("2000-01-01")}})
+9. db.getCollection('products').find({directors: {$exists: false}})
+10. db.getCollection('products').updateOne({title: "Casablanca"},{$push: {"genres": "Ishq"}})
+11. db.getCollection('products').updateOne({title: "Casablanca"},{$set: {"awards.aj": "aj"}})
+12. db.getCollection('products').updateOne({title: "Casablanca"},{$unset: {"awards.aj": "aj"}})
+13. db.getCollection('products').updateOne({title: "Casablanca"},{$pop: {"genres": 1}}) to remove last generes element in an array
+14. db.getCollection('products').updateOne({title: "Casablanca"},{$pop: {"genres": -1}}) to remove first element
+15. db.getCollection('products').find({title: /th/i}) searching like in mysql
+16. db.getCollection('products').find({title: /^the/i}) match first 3 character
+17. db.getCollection('products').find({title: /the$/i}) match last 3 character
+
+1. db.getCollection('products').aggregate([{$group: {_id:null , result: {$sum: "$price"}}}]) to sum price
+2. db.getCollection('products').aggregate([{$group: {_id:"$type" , result: {$sum: 1}}}])
+3. db.getCollection('products').aggregate([{$unwind: "$type"}])
+4. db.getCollection('products').aggregate([{$unwind: "$type"},{
+    $group: {_id: "$type", count: {$sum: 1}}
+    }])
+5. db.getCollection('products').aggregate([{$unwind: "$type"},{
+    $group: {_id: "$type", count: {$sum: 1}}
+},
+    {$sort: {"count": 1}}
+    ])
+6. db.getCollection('products').aggregate([{
+    $project: {name:1, price:1,rating:1, multiply: {$subtract: ["$price", "$rating"]}}
+    },
+    {$skip:2 },{$limit:3}
+    
+])
+7. db.getCollection('products').aggregate([{$unwind: "$type"},{
+    $group: {_id: "$type", MaxPrice: {$max: "$price"}}
+    }
+])
+8. db.getCollection('products').aggregate([{$unwind: "$type"},
+{
+    $match: {type:"phone"}
+},
+{
+    $group: {_id: "$type", MaxPrice: {$max: "$price"}}
+    }
+])
+9. db.getCollection('products').aggregate([{$unwind: "$type"},
+{
+    $match: {type: {$in: ["phone","charger"]}}
+},
+{
+    $group: {_id: "$type", MaxPrice: {$max: "$price"}}
+    }
+])
+10. db.getCollection('products').aggregate([{$unwind: "$type"},{
+    $group: {_id: "$type", value: {$sum : {$multiply: ["$price","$rating"]}}}
+    }
+])
+11. db.sales.aggregate([
+  {
+    $group : {
+       _id : null,
+       totalSaleAmount: { $sum: { $multiply: [ "$price", "$quantity" ] } },
+       averageQuantity: { $avg: "$quantity" },
+       count: { $sum: 1 }
+    }
+  }
+ ])
+
+===================================================================================================================
+/* 1 */
+{
+    "_id" : "ac3",
+    "name" : "AC3 Phone",
+    "brand" : "ACME",
+    "type" : "phone",
+    "price" : 200.0,
+    "rating" : 3.8,
+    "warranty_years" : 1.0,
+    "available" : true
+}
+
+/* 2 */
+{
+    "_id" : "ac7",
+    "name" : "AC7 Phone",
+    "brand" : "ACME",
+    "type" : "phone",
+    "price" : 320.0,
+    "rating" : 4.0,
+    "warranty_years" : 1.0,
+    "available" : false
+}
+
+/* 3 */
+{
+    "_id" : ObjectId("507d95d5719dbef170f15bf9"),
+    "name" : "AC3 Series Charger",
+    "type" : [ 
+        "accessory", 
+        "charger"
+    ],
+    "price" : 19,
+    "rating" : 2.8,
+    "warranty_years" : 0.25,
+    "for" : [ 
+        "ac3", 
+        "ac7", 
+        "ac9"
+    ]
+}
+
+/* 4 */
+{
+    "_id" : ObjectId("507d95d5719dbef170f15bfa"),
+    "name" : "AC3 Case Green",
+    "type" : [ 
+        "accessory", 
+        "case"
+    ],
+    "color" : "green",
+    "price" : 12,
+    "rating" : 1,
+    "warranty_years" : 0
+}
+
+/* 5 */
+{
+    "_id" : ObjectId("507d95d5719dbef170f15bfb"),
+    "name" : "Phone Extended Warranty",
+    "type" : "warranty",
+    "price" : 38,
+    "rating" : 5,
+    "warranty_years" : 2,
+    "for" : [ 
+        "ac3", 
+        "ac7", 
+        "ac9", 
+        "qp7", 
+        "qp8", 
+        "qp9"
+    ]
+}
+
+/* 6 */
+{
+    "_id" : ObjectId("507d95d5719dbef170f15bfc"),
+    "name" : "AC3 Case Black",
+    "type" : [ 
+        "accessory", 
+        "case"
+    ],
+    "color" : "black",
+    "price" : 12.5,
+    "rating" : 2,
+    "warranty_years" : 0.25,
+    "available" : false,
+    "for" : "ac3"
+}
+
+/* 7 */
+{
+    "_id" : ObjectId("507d95d5719dbef170f15bfd"),
+    "name" : "AC3 Case Red",
+    "type" : [ 
+        "accessory", 
+        "case"
+    ],
+    "color" : "red",
+    "price" : 12,
+    "rating" : 4,
+    "warranty_years" : 0.25,
+    "available" : true,
+    "for" : "ac3"
+}
+
+1. db.getCollection('products').aggregate([{$group: {_id:null , result: {$sum: "$price"}}}]) to sum price
+{
+    "_id" : null,
+    "result" : 613.5
+}
+
+2. db.getCollection('products').aggregate([{$group: {_id:"$type" , result: {$sum: 1}}}])
+/* 1 */
+{
+    "_id" : "warranty",
+    "result" : 1.0
+}
+
+/* 2 */
+{
+    "_id" : [ 
+        "accessory", 
+        "case"
+    ],
+    "result" : 3.0
+}
+
+/* 3 */
+{
+    "_id" : "phone",
+    "result" : 2.0
+}
+
+/* 4 */
+{
+    "_id" : [ 
+        "accessory", 
+        "charger"
+    ],
+    "result" : 1.0
+}
+
+3. db.getCollection('products').aggregate([{$unwind: "$type"}])
+/* 1 */
+{
+    "_id" : "ac3",
+    "name" : "AC3 Phone",
+    "brand" : "ACME",
+    "type" : "phone",
+    "price" : 200.0,
+    "rating" : 3.8,
+    "warranty_years" : 1.0,
+    "available" : true
+}
+
+/* 2 */
+{
+    "_id" : "ac7",
+    "name" : "AC7 Phone",
+    "brand" : "ACME",
+    "type" : "phone",
+    "price" : 320.0,
+    "rating" : 4.0,
+    "warranty_years" : 1.0,
+    "available" : false
+}
+
+/* 3 */
+{
+    "_id" : ObjectId("507d95d5719dbef170f15bf9"),
+    "name" : "AC3 Series Charger",
+    "type" : "accessory",
+    "price" : 19,
+    "rating" : 2.8,
+    "warranty_years" : 0.25,
+    "for" : [ 
+        "ac3", 
+        "ac7", 
+        "ac9"
+    ]
+}
+
+/* 4 */
+{
+    "_id" : ObjectId("507d95d5719dbef170f15bf9"),
+    "name" : "AC3 Series Charger",
+    "type" : "charger",
+    "price" : 19,
+    "rating" : 2.8,
+    "warranty_years" : 0.25,
+    "for" : [ 
+        "ac3", 
+        "ac7", 
+        "ac9"
+    ]
+}
+
+/* 5 */
+{
+    "_id" : ObjectId("507d95d5719dbef170f15bfa"),
+    "name" : "AC3 Case Green",
+    "type" : "accessory",
+    "color" : "green",
+    "price" : 12,
+    "rating" : 1,
+    "warranty_years" : 0
+}
+
+/* 6 */
+{
+    "_id" : ObjectId("507d95d5719dbef170f15bfa"),
+    "name" : "AC3 Case Green",
+    "type" : "case",
+    "color" : "green",
+    "price" : 12,
+    "rating" : 1,
+    "warranty_years" : 0
+}
+
+/* 7 */
+{
+    "_id" : ObjectId("507d95d5719dbef170f15bfb"),
+    "name" : "Phone Extended Warranty",
+    "type" : "warranty",
+    "price" : 38,
+    "rating" : 5,
+    "warranty_years" : 2,
+    "for" : [ 
+        "ac3", 
+        "ac7", 
+        "ac9", 
+        "qp7", 
+        "qp8", 
+        "qp9"
+    ]
+}
+
+/* 8 */
+{
+    "_id" : ObjectId("507d95d5719dbef170f15bfc"),
+    "name" : "AC3 Case Black",
+    "type" : "accessory",
+    "color" : "black",
+    "price" : 12.5,
+    "rating" : 2,
+    "warranty_years" : 0.25,
+    "available" : false,
+    "for" : "ac3"
+}
+
+/* 9 */
+{
+    "_id" : ObjectId("507d95d5719dbef170f15bfc"),
+    "name" : "AC3 Case Black",
+    "type" : "case",
+    "color" : "black",
+    "price" : 12.5,
+    "rating" : 2,
+    "warranty_years" : 0.25,
+    "available" : false,
+    "for" : "ac3"
+}
+
+/* 10 */
+{
+    "_id" : ObjectId("507d95d5719dbef170f15bfd"),
+    "name" : "AC3 Case Red",
+    "type" : "accessory",
+    "color" : "red",
+    "price" : 12,
+    "rating" : 4,
+    "warranty_years" : 0.25,
+    "available" : true,
+    "for" : "ac3"
+}
+
+/* 11 */
+{
+    "_id" : ObjectId("507d95d5719dbef170f15bfd"),
+    "name" : "AC3 Case Red",
+    "type" : "case",
+    "color" : "red",
+    "price" : 12,
+    "rating" : 4,
+    "warranty_years" : 0.25,
+    "available" : true,
+    "for" : "ac3"
+}
+
+4. db.getCollection('products').aggregate([{$unwind: "$type"},{
+    $group: {_id: "$type", count: {$sum: 1}}
+    }])
+
+/* 1 */
+{
+    "_id" : "warranty",
+    "count" : 1.0
+}
+
+/* 2 */
+{
+    "_id" : "charger",
+    "count" : 1.0
+}
+
+/* 3 */
+{
+    "_id" : "case",
+    "count" : 3.0
+}
+
+/* 4 */
+{
+    "_id" : "phone",
+    "count" : 2.0
+}
+
+/* 5 */
+{
+    "_id" : "accessory",
+    "count" : 4.0
+}
+
+5. db.getCollection('products').aggregate([{$unwind: "$type"},{
+    $group: {_id: "$type", count: {$sum: 1}}
+},
+    {$sort: {"count": 1}}
+    ])
+
+/* 1 */
+{
+    "_id" : "charger",
+    "count" : 1.0
+}
+
+/* 2 */
+{
+    "_id" : "warranty",
+    "count" : 1.0
+}
+
+/* 3 */
+{
+    "_id" : "phone",
+    "count" : 2.0
+}
+
+/* 4 */
+{
+    "_id" : "case",
+    "count" : 3.0
+}
+
+/* 5 */
+{
+    "_id" : "accessory",
+    "count" : 4.0
+}
+
+6. db.getCollection('products').aggregate([{
+    $project: {name:1, price:1,rating:1, multiply: {$subtract: ["$price", "$rating"]}}
+    },
+    {$skip:2 },{$limit:3}
+    
+])
+
+7. db.getCollection('products').aggregate([{$unwind: "$type"},{
+    $group: {_id: "$type", MaxPrice: {$max: "$price"}}
+    }
+])
+
+/* 1 */
+{
+    "_id" : "warranty",
+    "MaxPrice" : 38
+}
+
+/* 2 */
+{
+    "_id" : "charger",
+    "MaxPrice" : 19
+}
+
+/* 3 */
+{
+    "_id" : "case",
+    "MaxPrice" : 12.5
+}
+
+/* 4 */
+{
+    "_id" : "phone",
+    "MaxPrice" : 320.0
+}
+
+/* 5 */
+{
+    "_id" : "accessory",
+    "MaxPrice" : 19
+}
+
+8. db.getCollection('products').aggregate([{$unwind: "$type"},
+{
+    $match: {type:"phone"}
+},
+{
+    $group: {_id: "$type", MaxPrice: {$max: "$price"}}
+    }
+])
+
+/* 1 */
+{
+    "_id" : "phone",
+    "MaxPrice" : 320.0
+}
+
+9. db.getCollection('products').aggregate([{$unwind: "$type"},
+{
+    $match: {type: {$in: ["phone","charger"]}}
+},
+{
+    $group: {_id: "$type", MaxPrice: {$max: "$price"}}
+    }
+])
+
+10. db.getCollection('products').aggregate([{$unwind: "$type"},{
+    $group: {_id: "$type", value: {$sum : {$multiply: ["$price","$rating"]}}}
+    }
+])
+
+/* 1 */
+{
+    "_id" : "accessory",
+    "value" : 138.2
+}
+
+/* 2 */
+{
+    "_id" : "phone",
+    "value" : 2040.0
+}
+
+/* 3 */
+{
+    "_id" : "case",
+    "value" : 85.0
+}
+
+/* 4 */
+{
+    "_id" : "charger",
+    "value" : 53.2
+}
+
+/* 5 */
+{
+    "_id" : "warranty",
+    "value" : 190
+}
+
+11. db.getCollection('products').find({type :{$elemMatch: {$eq: "charger"}}})
+{
+    "_id" : ObjectId("507d95d5719dbef170f15bf9"),
+    "name" : "AC3 Series Charger",
+    "type" : [ 
+        "accessory", 
+        "charger"
+    ],
+    "price" : 19,
+    "rating" : 2.8,
+    "warranty_years" : 0.25,
+    "for" : [ 
+        "ac3", 
+        "ac7", 
+        "ac9"
+    ]
+}
+
+===================================
+db.books.insertMany([
+  { "_id" : 8751, "title" : "The Banquet", "author" : "Dante", "copies" : 2 },
+  { "_id" : 8752, "title" : "Divine Comedy", "author" : "Dante", "copies" : 1 },
+  { "_id" : 8645, "title" : "Eclogues", "author" : "Dante", "copies" : 2 },
+  { "_id" : 7000, "title" : "The Odyssey", "author" : "Homer", "copies" : 10 },
+  { "_id" : 7020, "title" : "Iliad", "author" : "Homer", "copies" : 10 }
+])
+
+Group title by author
+db.books.aggregate([
+      {
+        _id : "$author", books : {"$push" : "$title"}
+      }
+])
+
+{ "_id" : "Homer", "books" : [ "The Odyssey", "Iliad" ] }
+{ "_id" : "Dante", "books" : [ "The Banquet", "Divine Comedy", "Eclogues" ] }
+
+
+Group Documents by author
+db.books.aggregate([
+   // First Stage
+   {
+     $group : { _id : "$author", books: { $push: "$$ROOT" } }
+   },
+   // Second Stage
+   {
+     $addFields:
+       {
+         totalCopies : { $sum: "$books.copies" }
+       }
+   }
+ ])
+
+{
+  "_id" : "Homer",
+  "books" :
+     [
+       { "_id" : 7000, "title" : "The Odyssey", "author" : "Homer", "copies" : 10 },
+       { "_id" : 7020, "title" : "Iliad", "author" : "Homer", "copies" : 10 }
+     ],
+   "totalCopies" : 20
+}
+
+{
+  "_id" : "Dante",
+  "books" :
+     [
+       { "_id" : 8751, "title" : "The Banquet", "author" : "Dante", "copies" : 2 },
+       { "_id" : 8752, "title" : "Divine Comedy", "author" : "Dante", "copies" : 1 },
+       { "_id" : 8645, "title" : "Eclogues", "author" : "Dante", "copies" : 2 }
+     ],
+   "totalCopies" : 5
+}
+=======================================
+db.collection.aggregate([
+  {
+    "$group": {
+      "_id": "$gender",
+      "name": {
+        "$push": {
+          "$concat": [
+            "$firstName",
+            "$lastName"
+          ]
+        }
+      }
+    }
+  }
+])
+
+
+SELECT 
+    o.id,
+   CAST(o.date_added AS DATE),
+    SUM(CASE WHEN ot.label = "Subtotal" || ot.label = "Tax" THEN CAST(ot.value AS DECIMAL(10,2)) ELSE 0 END) as total
+    FROM orders o 
+    INNER JOIN business b ON b.id = o.business_id 
+    INNER JOIN order_totals ot ON ot.order_id = o.id
+    WHERE  o.status = 'Completed'
+    GROUP BY CAST(o.date_added AS DATE);
+
+===========================================================================
+SELECT 
+   CAST(o.date_added AS DATE),
+   COUNT( o.id)  as total
+    FROM orders o 
+    INNER JOIN business b ON b.id = o.business_id 
+    INNER JOIN order_totals ot ON ot.order_id = o.id
+    WHERE  o.status = 'Completed'
+    GROUP BY CAST(o.date_added AS DATE);
+==============================================================================
+SELECT 
+   CAST(o.date_added AS DATE),
+   COUNT( o.id)  as total
+    FROM orders o 
+    INNER JOIN business b ON b.id = o.business_id 
+    INNER JOIN order_totals ot ON ot.order_id = o.id
+    WHERE  o.status IN ('Completed','Cancelled','Undelivered')
+    GROUP BY CAST(o.date_added AS DATE);
+
+===============================================================================
+SELECT SUM(CASE WHEN type = 0 THEN amount * 1 ELSE amount * -1 END ) AS transaction_sum 
+FROM business_transactions WHERE business_id = ${req.user.id}
+===============================================================================
+Select om.*,
+(CASE om.type
+            WHEN 'partner'
+            THEN p.first_name
+            ELSE c.first_name
+END) as first_name,
+        (CASE om.type
+            WHEN 'partner'
+            THEN p.last_name
+            ELSE c.last_name
+        END) as last_name
+From order_messages om 
+INNER JOIN partner p ON p.id = om.partner_id
+INNER JOIN customer c ON c.id = om.customer_id
+WHERE om.order_id = 10;
+===================================================================================
+SELECT order_cancellation.*, 
+CASE order_cancellation.type
+WHEN 0 THEN (SELECT CONCAT(c.first_name ,' ', c.last_name) FROM business AS c WHERE c.id = order_cancellation.cancelled_by)
+WHEN 1 THEN (SELECT CONCAT(c.first_name ,' ', c.last_name) FROM customer AS c WHERE c.id = order_cancellation.cancelled_by)
+ELSE (SELECT CONCAT(c.first_name ,' ', c.last_name) FROM superuser AS c WHERE c.id = order_cancellation.cancelled_by)
+END as cancelled_by_name
+FROM order_cancellation;
