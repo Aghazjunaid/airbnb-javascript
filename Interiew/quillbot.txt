@@ -1,0 +1,135 @@
+import "./styles.css";
+import React, {useEffect, useState} from "react";
+
+const list = [
+  "Apple",
+  "Banana",
+  "Mango",
+  "Cherry",
+  "Papaya",
+  "Guava",
+  "Pomegranate"
+];
+
+
+
+export default function App() {
+
+  const [color,setColor] = useState("green")
+
+useEffect(()=> {
+  setTimeout(()=>{
+    setColor("red")
+  },5000)
+},[])
+
+  return (
+    <div className="App">
+      {list.map((fruit, index) => (
+        <p key={index} style={{ backgroundColor: color }}>
+          {fruit}
+        </p>
+      ))}
+    </div>
+  );
+}
+
+
+
+=======================
+// Online Javascript Editor for free
+// Write, Edit and Run your Javascript code using JS Online Compiler
+    
+console.log("Welcome to Programiz!");
+
+const A = {
+	    name: "Aakash",
+	    age: 22,
+	    city: "New Delhi",
+	    bloodGroup: "O-",
+	    yearsOfExperience: 1,
+	    role: "Marketing Specialist",
+	    phone: 9876543210,
+	    fathersName: "Nikhil"
+	}
+	
+const B = {
+	    name: "Bharat",
+	    age: 26,
+	    city: "New Delhi",
+	    bloodGroup: "O+",
+	    yearsOfExperience: 4,
+	    role: "Marketing Specialist",
+	    phone: 8876543219,
+	    fathersName: "Nikhil"
+}
+
+let obj = {}
+
+for(let key of Object.keys(A)){
+    if(A[key] == B[key]){
+        obj[key] = A[key]
+    }
+}
+
+console.log(obj)
+
+=============================================================
+[
+  {
+    "name": "John Doe",
+    "number_of_cars": 3,
+    "total_of_cars": 240000
+  },
+  {
+    "name": "Jackie Joe",
+    "number_of_cars": 2,
+    "total_of_cars": 70000
+  },
+  {
+    "name": "Joe Bloggs",
+    "number_of_cars": 6,
+    "total_of_cars": 300000
+  },
+  {
+    "name": "John Q. Public",
+    "number_of_cars": 4,
+    "total_of_cars": 40000
+  },
+  {
+    "name": "Karren Koe",
+    "number_of_cars": 1,
+    "total_of_cars": 50000
+  },
+  {
+    "name": "Robert Roe",
+    "number_of_cars": 5,
+    "total_of_cars": 190000
+  },
+  {
+    "name": "Vince Voe",
+    "number_of_cars": 11,
+    "total_of_cars": 33000
+  },
+  
+]
+
+db.collection.aggregate([
+  {
+    "$project": {
+      _id: 0,
+      name: 1,
+      "averageValue": {
+        "$divide": [
+          "$total_of_cars",
+          "$number_of_cars"
+        ]
+      }
+    }
+  },
+  {
+    "$sort": {
+      averageValue: -1
+    }
+  }
+])

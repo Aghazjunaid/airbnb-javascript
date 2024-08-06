@@ -1,0 +1,111 @@
+let aj={
+  aj1:"fg",
+  aj2:"jgjhdgj",
+  aj3:"fvsdfddj",
+  "db-123":{aj4:"hgvvhv"},
+  "db123:pod-1":{pd1:"hgvhgvg"},
+  "db123:pod-2":{pd1:"hgvg"},
+  "db-124":{aj4:"hgvvjhv"},
+  "db124:pod-3":{pd1:"hgvhgv8jhg"}
+}
+
+let arr=[];
+let arr2=[];
+for(let [key,value] of Object.entries(aj)){
+
+  if(key.includes("db-")){
+    arr.push(key)
+  }
+  if(key.includes(":")){
+    arr2.push(key)
+  }
+}
+let res=[];
+for(let i=0;i<arr.length;i++){
+  let dj=arr[i].split('-')[0]+arr[i].split('-')[1]
+  let obj=aj[`${arr[i]}`]
+  obj.pods =[]
+  for(let j=0;j<arr2.length;j++){
+    console.log(aj[`${arr2[j]}`])
+    if(arr2[j].includes(dj)){
+      obj["pods"].push(aj[`${arr2[j]}`])
+    }
+  }
+  res.push(obj)
+}
+
+console.log(arr,arr2)
+console.log(res)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// let arr = [1,2,7]
+// let num = 400
+
+// let newArr = []
+// for(let i=arr.length-1;i>0;i--){
+//   let aj = arr[i] + num
+//   console.log(aj)
+//   if(aj > 9){
+//     aj = String(aj)
+//     num = Number(aj[0])
+//     arr[i] = Number(aj[1])
+//   } else {
+//     arr[i] = aj
+//     num =0
+//   }
+// }
+
+// console.log(arr)

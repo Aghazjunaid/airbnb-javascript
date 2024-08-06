@@ -1,0 +1,20 @@
+let str = "RRRGGBBRRGGBB"
+
+let newStr = '' + str[0]
+for(let i=1;i<str.length;i++){
+    if(str[i] != str[i-1]){
+        newStr += str[i]
+    }
+}
+
+console.log(newStr) //RGBRGB
+
+
+let arr = str.split('')
+for(let i=1;i<arr.length;i++){
+    if(arr[i] === arr[i-1]){
+        arr.splice(i--,1)
+    }
+}
+
+console.log(arr.join('')) //RGBRGB

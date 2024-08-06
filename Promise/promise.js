@@ -127,3 +127,11 @@ const myPromise = Promise.resolve('Woah some cool data');
 
 
 
+
+async function callMe() {
+  return "Hello Aj"
+}
+
+(async()=> {
+    console.log(await callMe()) //Hello AJ
+})()

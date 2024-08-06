@@ -1,0 +1,24 @@
+let str1 = 'listen'
+let str2 = 'nestil'
+
+
+function isAnagram(str1,str2) {
+    let arr = new Array(256).fill(0)
+    if(str1.length !== str2.length){
+        return false
+    }
+    let obj = {}
+    for(let i=0;i<str1.length;i++){
+        arr[str1.charCodeAt(i)] += 1
+        arr[str2.charCodeAt(i)] -= 1
+    }
+    
+    for(let i=0;i<256;i++){
+        if(arr[i] !== 0){
+            return false
+        }
+    }
+    return true
+}
+
+console.log(isAnagram(str1,str2)) //true

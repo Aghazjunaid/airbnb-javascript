@@ -1,0 +1,130 @@
+// Example 1:
+
+// Input: intervals = [[1,3],[2,6],[8,10],[15,18]]
+// Output: [[1,6],[8,10],[15,18]]
+// Explanation: Since intervals [1,3] and [2,6] overlap, merge them into [1,6].
+// Example 2:
+
+// Input: intervals = [[1,4],[4,5]]
+// Output: [[1,5]]
+// Explanation: Intervals [1,4] and [4,5] are considered overlapping.
+
+var merge = function(intervals) {
+    intervals.sort((a,b) => a[0]-b[0])
+    let res = []
+    let first = intervals[0]
+    for(let i=1; i<intervals.length;i++){
+        if(first[1] >= intervals[i][0] ){
+            let a = Math.min(first[0],intervals[i][0])
+            let b = Math.max(first[1],intervals[i][1])
+            first = [a,b]
+        } else {
+            res.push(first)
+            first = intervals[i]
+        }
+    }
+    res.push(first)
+    return res
+};
+
+
+console.log(merge([[1,4],[4,5]]))
+
+// // Symbol       Value
+// // I             1
+// // V             5
+// // X             10
+// // L             50
+// // C             100
+// // D             500
+// // M             1000
+
+// // Example 1:
+
+// // Input: num = 3
+// // Output: "III"
+// // Explanation: 3 is represented as 3 ones.
+// // Example 2:
+
+// // Input: num = 58
+// // Output: "LVIII"
+// // Explanation: L = 50, V = 5, III = 3.
+// // Example 3:
+
+// // Input: num = 1994
+// // Output: "MCMXCIV"
+// // Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
+
+// //  1<=num<=3999
+
+// var intToRoman = function(num) {
+//     // let roman = {
+//     //     M : 1000,
+//     //     D : 500,
+//     //     C : 100,
+//     //     L : 50,
+//     //     X : 10,
+//     //     V : 5,
+//     //     IV: 4,
+//     //     I : 1
+//     // }
+
+//     // let str = ''
+//     // for(let i of Object.keys(roman)){
+//     //     let num1 = Math.floor(num/roman[i])
+//     //     num -= num1*roman[i]
+//     //     str += i.repeat(num1)
+//     // }
+
+//     // return str
+
+//     let res = ''
+// //1994
+//     while(num> 0){
+//         if(num >= 1000){
+//             res += 'M'
+//             num -= 1000
+//         } else if(num >= 900){
+//             res += 'CM'
+//             num -= 900
+//         } else if(num >= 500){
+//             res += "D"
+//             num -= 500
+//         } else if(num >= 400){
+//             res += "CD"
+//             num -= 400
+//         } else if(num >= 100){
+//             res += "C"
+//             num -= 100
+//         } else if(num >= 90){
+//             res += "XC"
+//             num -= 90
+//         } else if(num >= 50){
+//             res += "L"
+//             num -= 50
+//         } else if(num >= 40){
+//             res += "XL"
+//             num -= 40
+//         } else if(num >= 10){
+//             res += "X"
+//             num -= 10
+//         } else if(num >= 9){
+//             res += "IX"
+//             num -= 9
+//         } else if(num >= 5){
+//             res += "V"
+//             num -= 5
+//         } else if(num >= 4){
+//             res += "IV"
+//             num -= 4
+//         } else if(num >= 1){
+//             res += "I"
+//             num -= 1
+//         }
+//     }
+
+//     return res
+
+// };
+
+// console.log(intToRoman(1994))

@@ -1,0 +1,32 @@
+let str = "RRRGGBRRGGBB"
+
+let count = 1
+let nstr = ''
+
+for(let i=0;i<str.length;i++){
+    if(str[i] == str[i+1]){
+        count++
+    } else if(str[i] != str[i+1]){
+        nstr += (str[i]+count)
+        count = 1
+    }
+}
+
+console.log(nstr) //R3G2B1R2G2B2
+
+
+let obj = {};
+let newStr = '';
+for(let i=0;i<str.length;i++){
+    if(str[i] in obj){
+        obj[str[i]] += 1
+    }else{
+        obj[str[i]] = 1
+    }
+    if(str[i] != str[i+1]){
+        newStr += `${str[i]}${obj[str[i]]}`
+        delete obj[str[i]]
+    }
+}
+
+console.log(newStr) //R3G2B1R2G2B2

@@ -1,0 +1,31 @@
+For componentDidMount
+
+useEffect(() => {
+  // Your code here
+}, []);
+
+
+For componentDidUpdate
+
+useEffect(() => {
+  // Your code here
+}, [yourDependency]);
+
+
+For componentWillUnmount
+
+useEffect(() => {
+  // componentWillUnmount
+  return () => {
+     // Your code here
+  }
+}, [yourDependency]);
+So in this situation, you need to pass your dependency into this array. Let's assume you have a state like this
+
+const [count, setCount] = useState(0);
+
+And whenever count increases you want to re-render your function component. Then your useEffect should look like this
+
+useEffect(() => {
+  // <div>{count}</div>
+}, [count]);

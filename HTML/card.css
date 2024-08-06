@@ -1,0 +1,38 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.card{
+    width: 350px;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 22px;
+}
+.image{
+    border: 2px solid black;
+    border-radius: 5px;
+    height: 150px;
+    width: 300px;
+}
+.content{
+    margin-top: 10px;
+    border: 2px solid black;
+    border-radius: 5px;
+    height: 200px;
+    width: 300px;
+}
+.btns{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+.name, .btn{
+    margin-top: 10px;
+    border: 2px solid black;
+    border-radius: 5px;
+    height: 50px;
+    width: 100%;
+}

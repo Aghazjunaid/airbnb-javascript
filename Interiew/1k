@@ -1,0 +1,61 @@
+1.
+product db
+
+id 
+name
+
+vendor table
+averageRating
+
+rating table
+productId
+customerId
+value
+
+
+
+2.
+points
+id 
+cusid
+point
+createdAt
+
+
+customer
+id
+name
+createdAt
+
+
+DELETE from points AS p 
+INNER JOIN customer AS c on c.id = p.cusid
+where c.createdAt >= "2022-01-01"
+
+
+3.
+const mid1 = (req,res,next) => {
+    console.log(")
+}
+
+RSA algo
+ORM adv and dis
+partioning in mongodb
+isolation level in sql
+
+Question :- Cacching data changes
+Redis has no idea whether the data in DB has been updated.
+
+Normally, we use Redis to cache data as follows:
+
+Client checks if the data, e.g. key-value pair, exists in Redis.
+If the key exists, client gets the corresponding value from Redis.
+Otherwise, it gets data from DB, and sets it to Redis. Also client sets an expiration, say 5 minutes, for the key-value pair in Redis.
+Then any subsequent requests for the same key will be served by Redis. Although the data in Redis might be out-of-date.
+However, after 5 minutes, this key will be removed from Redis automatically.
+Go to step 1.
+So in order to keep your data in Redis update-to-date, you can set a short expiration time. However, your DB has to serve lots of requests.
+
+If you want to largely decrease requests to DB, you can set a large expiration time. So that, most of time, Redis can serve the requests with possible staled data.
+
+You should consider carefully about the trade-off between performance and staled data.
