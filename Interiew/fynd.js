@@ -99,4 +99,13 @@ useEffect(()=>{
 },[])
 
 
+//Sure, here's a simple example of how to create a circle using HTML and CSS:
+<div class="circle"></div>
+.circle {
+  width: 100px;
+  height: 100px;
+  background-color: #555;
+  border-radius: 50%;
+}
+
 
