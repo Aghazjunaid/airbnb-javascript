@@ -135,3 +135,39 @@ async function callMe() {
 (async()=> {
     console.log(await callMe()) //Hello AJ
 })()
+
+===========================================Examples=====================================
+const axios = require('axios');
+
+//1
+axios.get('https://jsonplaceholder.typicode.com/posts/1')
+.then(ele => console.log(ele.data))
+.catch(err => console.log(err))
+
+async function getData(id){
+    try {
+        const {data} = await axios.get(`https://jsonplaceholder.typicode.com/posts/${id}`)
+        return data;
+    } catch(err){
+        return err
+    }
+}
+
+(async () => {
+    console.log(await getData(1))
+})()
+
+getData(1).then(ele => console.log(ele))
+.catch(err => console.log(err))
+
+//2
+let pro = Promise.allSettled([1,2,3].map(ele => getData(ele)));
+
+pro.then(ele => console.log(ele))
+.catch(err => console.log(err))
+//OR
+(async () => {
+    console.log(await pro)
+})()
+
+//3
