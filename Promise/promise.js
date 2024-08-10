@@ -171,3 +171,22 @@ pro.then(ele => console.log(ele))
 })()
 
 //3
+let pro1 = Promise.all([1,2,3].map(ele => getData(ele)));
+
+(async () => {
+    console.log(await pro1)
+})()
+
+//4
+let pro2 = Promise.any([1,2,3].map(ele => getData(ele)));
+
+(async () => {
+    console.log(await pro2)
+})()
+
+//5
+let pro3 = Promise.race([1,2,3].map(ele => getData(ele)));
+
+(async () => {
+    console.log(await pro3,'race')
+})()
