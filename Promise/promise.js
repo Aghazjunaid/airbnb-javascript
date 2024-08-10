@@ -190,3 +190,62 @@ let pro3 = Promise.race([1,2,3].map(ele => getData(ele)));
 (async () => {
     console.log(await pro3,'race')
 })()
+
+//6
+(async () => {
+    console.log(Promise.resolve(4)) //Promise { 4 }
+    console.log(await Promise.resolve(4)) //4
+})()
+
+//7
+let pro = new Promise((resolve,reject) =>{
+    let otp = Math.floor(Math.random() * 100000);
+    if(otp%2 == 0) resolve(otp)
+    else reject(otp)
+})
+
+pro.then(ele => console.log(ele))//12345
+.catch(err => console.log(err))
+
+async function aj() {
+    try {
+        console.log(await pro)
+ 
+     } catch(err){
+         console.log(err)//12345
+     }
+}
+aj()
+
+//8
+const secondPromise = new Promise((resolve, reject) => {
+    resolve('Second!');
+});
+
+const firstPromise = new Promise((resolve, reject) => {
+    resolve(secondPromise);
+})
+
+firstPromise
+    .then(promise => promise)
+    .then(value => console.log(value)); //second
+
+//Using setTimeout, print the string 'Hello!' after 1000ms.
+function sayHello() {
+    setTimeout(function() {
+        console.log('Hello')
+    }, 1000)
+}
+
+//Write a function delay that returns a promise. And that promise should return a setTimeout that calls resolve after 1000ms
+const delay = () => {
+    return new Promise((resolve, reject) => {
+        return setTimeout(() => {
+            resolve('Hello');
+        }, 1000)
+    });
+}
+
+delay().then(ele => console.log(ele))//hello
+.catch(err => console.log(err))
+
