@@ -150,3 +150,22 @@ app.listen(1337,()=>{
     console.log('3000 port')
 })
 
+//========
+app.get('/', (req, res, next) => {
+    try {
+        // Some code that might throw an error
+        const data = someFunctionThatMightThrowError();
+        res.status(200).json(
+            { message: 'Data retrieved successfully', data });
+    } catch (error) {
+        next(error);
+    }
+});
+
+// Custom error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json(
+        { message: 'Something went wrong!' });
+});
+
