@@ -53,4 +53,23 @@ for Post
     }
 ]
 
-find pivot in rotated sorted Array
+//find pivot in rotated sorted Array
+
+var calc = {
+    total: 0,
+    add(a) {
+        this.total += a;
+        return this;
+    },
+    subtract(a) {
+        this.total -= a;
+        return this;
+    },
+    multiply(a) {
+        this.total *= a;
+        return this;
+    },
+};
+let result = calc.add(10).multiply(5).subtract(30).add(10) 
+console.log(result.total);
+
