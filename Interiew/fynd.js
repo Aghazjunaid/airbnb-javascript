@@ -108,4 +108,45 @@ useEffect(()=>{
   border-radius: 50%;
 }
 
+//
+const express = require('express');
+const app = express();
+
+
+const mid1 = function(req,res,next){
+    console.log('mid 1 running');
+    next()
+}
+
+const ErrorHandler = (err, req, res, next) => {
+    console.log(err,next);
+
+    console.log("Middleware Error Hadnling");
+    const errStatus = err.statusCode || 500;
+    const errMsg = err.message || 'Something went wrong';
+    res.status(errStatus).json({
+        success: false,
+        status: errStatus,
+        message: errMsg,
+        stack: process.env.NODE_ENV === 'development' ? err.stack : {}
+    })
+}
+
+app.use(ErrorHandler)
+
+
+app.get('/',(req,res,next) => {
+    try{
+        throw "aj"
+    } catch(err){
+        next(err)
+
+    }
+    // return res.json("hello")
+})
+
+
+app.listen(1337,()=>{
+    console.log('3000 port')
+})
 
