@@ -288,3 +288,37 @@ async function aj1(){
 }
 
 aj1()
+
+let p1 = Promise.resolve(5);
+let p2 = Promise.resolve(53);
+let p3 = Promise.reject(54);
+
+
+Promise.all([p1,p2,p3]).then((res) => console.log(res)).catch((err)=> console.log(err, 'error'));
+Promise.allSettled([p1,p2,p3]).then((res) => console.log(res)).catch((err)=> console.log(err, 'error'));
+Promise.any([p1,p2,p3]).then((res) => console.log(res)).catch((err)=> console.log(err, 'error'));
+Promise.race([p1,p2,p3]).then((res) => console.log(res)).catch((err)=> console.log(err, 'error'));
+
+
+function createPromise(){
+    return new Promise((resolve,reject) => {
+        let random = Math.random();
+        if(random > 0.5){
+            resolve(random); 
+        } else {
+            reject(random);
+        }
+    })
+}
+
+// Create an array of promises to retry
+let promises = [createPromise(), createPromise(), createPromise()];
+
+// Execute all promises and handle the results
+Promise.allSettled(promises)
+    .then((results) => {
+        console.log('All promises resolved:', results);
+    })
+    .catch((error) => {
+        console.log('One of the promises failed after retries:', error);
+    });
