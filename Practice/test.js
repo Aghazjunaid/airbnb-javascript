@@ -248,3 +248,43 @@
 // console.log(ans())
 // console.log(ans())
 // console.log(ans())
+
+//========================19-08-2024============================================================
+function add(a){
+    return function(b){
+        if(b) return add(a+b);
+        return a;
+    }
+}
+
+console.log(add(1)(2)(3)(4)()); // 10
+
+let obj = {
+    name: 'John',
+    city: 'New York'
+}
+
+function aj(age){
+    console.log(this.name,age)
+}
+
+aj.call(obj,'30') // John 30
+aj.apply(obj,['30']) // John 30
+let binded = aj.bind(obj,'30')
+binded() // John 30
+
+
+let sleep = new Promise((resolve,reject) => {
+    setTimeout(() => {
+        resolve('')
+    },2000)
+})
+
+
+async function aj1(){
+    console.log('start')
+    await sleep;
+    console.log('end')
+}
+
+aj1()
