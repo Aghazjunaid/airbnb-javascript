@@ -22,3 +22,37 @@ function isAnagram(str1,str2) {
 }
 
 console.log(isAnagram(str1,str2)) //true
+
+===========================2===========
+let str1 = 'listen'
+let str2 = 'netsil'
+
+
+function isAnagram(str1,str2) {
+    if(str1.length != str2.length) return false;
+
+    let obj = {}
+    for(let i=0; i<str1.length;i++){
+        if(str1[i] in obj){
+            obj[str1[i]]++;
+        } else {
+            obj[str1[i]] = 1;
+        }
+    }
+
+    for(let i=0; i<str2.length;i++){
+        if(str2[i] in obj){
+            obj[str2[i]]--;
+            if(obj[str2[i]] == 0) delete obj[str2[i]]
+        } else {
+            obj[str2[i]] = -1;
+        }
+    }    
+
+    if(Object.keys(obj).length != 0) return false;
+
+    
+    return true
+}
+
+console.log(isAnagram(str1,str2)) //true
