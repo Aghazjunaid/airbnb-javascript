@@ -78,6 +78,7 @@
 15. db.getCollection('products').find({title: /th/i}) searching like in mysql
 16. db.getCollection('products').find({title: /^the/i}) match first 3 character
 17. db.getCollection('products').find({title: /the$/i}) match last 3 character
+18. db.users.find({released : {$gte : new Date(2023-03-25)}},{title:1});
 
 1. db.getCollection('products').aggregate([{$group: {_id:null , result: {$sum: "$price"}}}]) to sum price
 2. db.getCollection('products').aggregate([{$group: {_id:"$type" , result: {$sum: 1}}}])
