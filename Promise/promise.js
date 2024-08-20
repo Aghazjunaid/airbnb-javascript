@@ -249,3 +249,24 @@ const delay = () => {
 delay().then(ele => console.log(ele))//hello
 .catch(err => console.log(err))
 
+let promise = new Promise((resolve,reject) => {
+    let otp = Math.floor(Math.random()*10000);
+    if(otp%2 == 0){
+        resolve(otp);
+    } else {
+        reject(otp)
+    }
+})
+
+promise.then(ele => console.log(ele))
+.catch(err => console.log(err,"err"))
+
+async function run(){
+   try{
+       console.log(await promise)
+   } catch(err){
+       console.log(err,"err")
+   }
+}
+
+run()
