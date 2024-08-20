@@ -65,3 +65,19 @@ for(let i=0;i<arr.length;i++){
 1 0
 2 0
 4 3
+===========================
+let arr = [1, 5, 7, -1, 5]
+let s=6
+
+let obj = {};
+
+for(let i=0;i<arr.length;i++){
+    let diff = s - arr[i];
+    if(arr[i] in obj){
+        console.log(i,obj[arr[i]])
+    } else {
+        obj[diff] = i
+    }
+}
+
+console.log(obj)
