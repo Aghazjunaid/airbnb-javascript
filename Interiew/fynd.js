@@ -146,6 +146,20 @@ app.get('/',(req,res,next) => {
 })
 
 
+app.use(function (err, req, res, next) {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
+
+app.get('/aj',(req,res,next) => {
+    console.log('mid1', req.url);
+    req.mydata = 'Hello world';
+    const error = new Error('Something went wrong');
+    next(error);
+})
+
+
+
 app.listen(1337,()=>{
     console.log('3000 port')
 })
