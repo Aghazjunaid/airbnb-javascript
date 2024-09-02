@@ -1,6 +1,8 @@
-To store nested comments up to an infinite level and then fetch and display them in a nested structure, you can modify the table structure slightly and include logic to retrieve and format the comments appropriately. Here’s an example of how you can achieve this using MySQL and Node.js:
+To store nested comments up to an infinite level and then fetch and display them in a nested structure, you can modify the table structure slightly and include logic to retrieve and format the comments appropriately. Here's an example of how you can achieve this using MySQL and Node.js:
 
-Table Structure:
+### Table Structure:
+
+```sql
 CREATE TABLE blog (
     id INT PRIMARY KEY AUTO_INCREMENT,
     title VARCHAR(255) NOT NULL,
@@ -16,9 +18,13 @@ CREATE TABLE comment (
     FOREIGN KEY (post_id) REFERENCES blog(id),
     FOREIGN KEY (parent_id) REFERENCES comment(id)
 );
-Insert API in Node.js:
+```
+
+### Insert API in Node.js:
+
 Here is an example of the API endpoint to insert a comment:
 
+```javascript
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
@@ -77,4 +83,6 @@ app.get('/comments/:post_id', (req, res) => {
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
 });
-In the above Node.js code, we have provided an example of how to insert comments and fetch nested comments for a post using the provided array of comments. The formatComments function recursively formats the comments into a nested structure based on the parent-child relationships specified in the parent field.
+```
+
+In the above Node.js code, we have provided an example of how to insert comments and fetch nested comments for a post using the provided array of comments. The `formatComments` function recursively formats the comments into a nested structure based on the parent-child relationships specified in the `parent` field.
