@@ -68,16 +68,82 @@ function formatComments(comments, parentId = null) {
 app.get('/comments/:post_id', (req, res) => {
     const postId = req.params.post_id;
 
-    const comments = [
-        { id: 1, post_id: 2, parent: null },
-        { id: 2, post_id: 2, parent: 1 },
-        { id: 3, post_id: 2, parent: 2 },
-        { id: 4, post_id: 2, parent: null }
-    ];
+    const comments = const arr =[{
+                          id:1,
+                          post_id: 2,
+                          parent: null,
+                        },
+                        {
+                          id:2,
+                          post_id: 2,
+                          parent: 1,
+                        },
+                        {
+                          id:3,
+                          post_id: 2,
+                          parent: 2,
+                        },
+                        {
+                          id:4,
+                          post_id: 2,
+                          parent: null,
+                        },
+                        {
+                          id:5,
+                          post_id: 2,
+                          parent: 3,
+                        }
+                        ,{
+                          id:6,
+                          post_id: 2,
+                          parent: 3,
+                        }]
 
     const nestedComments = formatComments(comments);
 
     res.json(nestedComments);
+//
+[
+  {
+    "id": 1,
+    "post_id": 2,
+    "parent": null,
+    "replies": [
+      {
+        "id": 2,
+        "post_id": 2,
+        "parent": 1,
+        "replies": [
+          {
+            "id": 3,
+            "post_id": 2,
+            "parent": 2,
+            "replies": [
+              {
+                "id": 5,
+                "post_id": 2,
+                "parent": 3,
+                "replies": null
+              },
+              {
+                "id": 6,
+                "post_id": 2,
+                "parent": 3,
+                "replies": null
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "post_id": 2,
+    "parent": null,
+    "replies": null
+  }
+]
 });
 
 app.listen(3000, () => {
@@ -86,3 +152,36 @@ app.listen(3000, () => {
 ```
 
 In the above Node.js code, we have provided an example of how to insert comments and fetch nested comments for a post using the provided array of comments. The `formatComments` function recursively formats the comments into a nested structure based on the parent-child relationships specified in the `parent` field.
+
+
+import React from 'react';
+import './NestedComments.css';
+
+const Comment = ({ comment }) => {
+  return (
+    <div className="comment">
+      <h2 className="comment-id">Comment ID: {comment.id}</h2>
+      <p className="post-id">Post ID: {comment.post_id}</p>
+      {comment.replies && comment.replies.map(reply => (
+        <div className="reply">
+          <Comment key={reply.id} comment={reply} />
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const NestedComments = () => {
+  const comments = [{"id":1,"post_id":2,"parent":null,"replies":[{"id":2,"post_id":2,"parent":1,"replies":[{"id":3,"post_id":2,"parent":2,"replies":[{"id":5,"post_id":2,"parent":3,"replies":null},{"id":6,"post_id":2,"parent":3,"replies":null}]}]}]},{"id":4,"post_id":2,"parent":null,"replies":null}];
+
+  return (
+    <div className="comments-container">
+      {comments.map(comment => (
+        <Comment key={comment.id} comment={comment} />
+      ))}
+    </div>
+  );
+};
+
+export default NestedComments;
+
