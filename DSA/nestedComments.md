@@ -153,7 +153,8 @@ app.listen(3000, () => {
 
 In the above Node.js code, we have provided an example of how to insert comments and fetch nested comments for a post using the provided array of comments. The `formatComments` function recursively formats the comments into a nested structure based on the parent-child relationships specified in the `parent` field.
 
-
+//Frontend Code
+```javascript
 import React from 'react';
 import './NestedComments.css';
 
@@ -184,4 +185,4 @@ const NestedComments = () => {
 };
 
 export default NestedComments;
-
+```
