@@ -1,5 +1,5 @@
 1.
-```
+```javascript
 const obj = [
     { key: 'Sample 1', data: 'Data1' },
     { key: 'Sample 1', data: 'Data1' },
@@ -32,3 +32,40 @@ console.log(result)
 }
 
 ```
+2.
+```javascript
+
+const createComputeFunctions=()=>{
+    let totalAmount=0
+    return {
+        thousand:function(amount){
+            totalAmount+=amount*1000
+            return this
+
+        },
+
+        lacs:function(amount){
+            totalAmount+=amount*100000
+            return this
+        },
+
+        crore:function(amount){
+            totalAmount+=amount*10000000
+            return this
+
+        },
+
+        value:function(){
+            return totalAmount
+
+        }
+    }
+}
+
+const compute =createComputeFunctions()
+
+const result=compute.lacs(15).crore(5).crore(2).lacs(20).thousand(45).crore(7).value();
+console.log(result) //143545000
+```
+
+
