@@ -114,5 +114,35 @@ console.log(memorize(1, 2)); // Uses memoized result: 3
 console.log(memorize(2, 3)); // Calculates result: 5
 console.log(memorize(1, 2)); // Uses memoized result: 3
 ```
+4.Chunks
+```javascript
 
+
+function chunk(arr,size){
+  let result = [];
+  let chu = []
+  for(let i=0;i<arr.length;i++){
+     if(chu.length == size){
+       result.push([...chu]);
+       chu.length = 0
+     }
+     chu.push(arr[i])
+  }
+  if(chu.length > 0){
+      result.push(chu)
+  }
+  return result;
+}
+
+console.log(chunk([1,2,3,4,5,6],4)) //[ [ 1, 2, 3, 4 ], [ 5, 6 ] ]
+
+//OR
+function chunkArray(array, k) {
+  let chunks = [];
+  for (let i = 0; i < array.length; i += k) {
+    chunks.push(array.slice(i, i + k));
+  }
+  return chunks;
+}
+```
 
