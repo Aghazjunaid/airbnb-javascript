@@ -145,4 +145,28 @@ function chunkArray(array, k) {
   return chunks;
 }
 ```
+5.
+```javascript
+const count = (()=>{
+let value = 0;
+  function inner(){
+  	value++;
+    console.log(value);
+    return value;
+  }
+  inner.reset = function(){
+  	value=0;
+  }
+	return inner;
+})();
 
+count();//1
+count();//2
+count();//3
+
+count.reset()//
+
+count();//1
+count();//2
+count();//3
+```
