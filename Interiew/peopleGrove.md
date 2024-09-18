@@ -95,6 +95,103 @@ PostgreSQL: Known for its strong community support, comprehensive documentation,
 MySQL: Popular in web applications, especially where read-heavy operations are common.
 PostgreSQL: Preferred for applications that require complex queries, advanced data types, and high standards compliance.
 Conclusion:
+
+```javsscript
+// Have the function AdditivePersistence(num) take the num parameter being passed 
+// which will always be a positive integer and return its additive persistence which 
+// is the number of times you must add the digits in num until you reach a single 
+// digit.
+
+// For example: 
+// if num is 2718 then your program should return 2 because 
+// 2 + 7 + 1 + 8 = 18 and 1 + 8 = 9 and you stop at 9.
+
+// AdditivePersistence(123123); // 12
+// > 2
+
+// AdditivePersistence(5);
+// > 0
+
+// AdditivePersistence(98489);
+// > 3
+
+function additivePersistence(num){
+    let count = 0;
+    while(num >=10){
+        let sum = num.toString().split('').reduce((acc,curr) => parseInt(acc) + parseInt(curr),0);
+        num = sum;
+        count++
+    }
+
+    return count;
+}
+
+// console.log(additivePersistence(98489))
+
+
+function additivePersistenceRec(num){
+    if(num < 10){
+        return 0;
+    }
+
+    let sum = num.toString().split('').reduce((acc,curr) => parseInt(acc) + parseInt(curr),0);
+    return 1+additivePersistenceRec(sum);
+}
+
+// console.log(additivePersistenceRec(98489,0))
+
+
+
+
+
+
+
+// Given a non-empty string of letters and a non-negative integer representing a key, write a function that returns a new string obtained by shifting every letter in the input string by k positions in the alphabet, where k is the key.
+
+// Note that letters should "wrap" around the alphabet; in other words, the letter "z" shifted by one returns the letter "a" // PS
+
+// You need to preserve the case of each alphabet as well
+// Sample Input string = "xyz", key = 2 Output -> "zab"
+
+// Sample input string = "Caesar Cipher", key = 4 Output -> "Geiwev Gmtliv"
+
+// Helper functions below
+// String.fromCharCode(65)
+// 'a'.charCodeAt()
+
+
+function shifter(str,key){
+    let result = '';
+    for(let i=0;i<str.length;i++){
+        let char = str[i];
+        let updatedChar = null;
+        if(char.charCodeAt() != 32){
+            updatedChar = char.charCodeAt() + key;
+        }else{
+            updatedChar = char.charCodeAt();
+        }
+        // console.log(updatedChar)
+        if(updatedChar > 'z'.charCodeAt()){
+            updatedChar = 'a'.charCodeAt() + (updatedChar - 'z'.charCodeAt()-1);
+        }
+        if(updatedChar > 'A'.charCodeAt() && updatedChar <= 'Z'.charCodeAt()){
+if(updatedChar > 'Z'.charCodeAt()){
+            updatedChar = 'A'.charCodeAt() + (updatedChar - 'Z'.charCodeAt()-1);
+        }
+        }
+        
+        
+        result += String.fromCharCode(updatedChar)
+    }
+    return result;
+}
+
+console.log(shifter('XYZ',2))
+console.log(shifter('Caesar Cipher',4))
+
+console.log('a'.charCodeAt(),'A'.charCodeAt())
+
+```
 Choose MySQL if: You need a fast, reliable database for simpler read-write operations, especially in web applications.
 Choose PostgreSQL if: You require advanced SQL features, complex queries, data integrity, and flexibility in data types.
 The choice between MySQL and PostgreSQL often depends on the specific requirements of your project, such as scalability needs, data types, level of SQL compliance required, and the complexity of queries and operations.
