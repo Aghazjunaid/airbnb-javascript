@@ -191,4 +191,81 @@ Promise.myAll([p1, p3, p4])
     console.log(err);
   });
 
-//
+//Debounce
+function debounce(fn, delay) {
+  let timeoutId;
+
+  return function(...args) {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+
+    timeoutId = setTimeout(() => {
+      fn.apply(this, args);
+    }, delay);
+  };
+}
+
+const debouncedFunction = debounce(() => {
+  console.log('Debounced function called');
+}, 2000);
+
+debouncedFunction();
+debouncedFunction();
+debouncedFunction();
+
+//Throttle
+function throttle(fn, limit) {
+  let lastCall = 0;
+
+  return function(...args) {
+    const now = Date.now();
+
+    if (now - lastCall >= limit) {
+      lastCall = now;
+      fn.apply(this, args);
+    }
+  };
+}
+
+const throttledFunction = throttle(() => {
+  console.log('Throttled function called');
+}, 2000);
+
+throttledFunction();
+throttledFunction();
+throttledFunction();
+
+//Memoize
+function myMemoize(fn) {
+  const cache = {};
+
+  return function(...args) {
+    let argCache = JSON.stringify(args);
+
+    if (!cache[argCache]) {
+      cache[argCache] = fn.call(this, ...args);
+    }
+
+    return cache[argCache];
+  };
+}
+
+const expensiveFunc = (num1, num2) => {
+  let output = 1;
+  for (let i = 0; i <= 10000000; i++) {
+    output += i;
+  }
+
+  return num1 + num2 + output;
+}
+
+const memoizeFunc = myMemoize(expensiveFunc);
+
+console.time();
+console.log(memoizeFunc(1, 2));
+console.timeEnd();
+
+console.time();
+console.log(memoizeFunc(1, 2));
+console.timeEnd();
