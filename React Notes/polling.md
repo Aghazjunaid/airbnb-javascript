@@ -108,4 +108,9 @@ export default LongPolling;
 - **Short Polling**: Regular requests sent at fixed intervals. It's simple but can lead to unnecessary load if there's no new data.
 - **Long Polling**: Requests are held open until new data is available, making it more efficient.
 
-You can integrate these components into your React app and use them to see how polling works in practice.
+Long polling is basically a way to keep an HTTP connection open, so you would need to implement this on the server side, your front end cannot control what the server does with the request.
+https://dev.to/obnsk/long-polling-comparative-and-sample-coded-expression-4anp
+
+As a side note, long polling is generally much more taxing on the server than websockets, and honestly your time would be better spent implementing a websocket connection, setting up a basic ws server is not that difficult if you use a library such as socket.io
+
+Edit: Just as a semantic note, Long polling is an event driven way for the server to send back responses to the client without the client sending a specific request asking for that data, whereas regular polling is just sending requests at a specific interval (It sounds like you already know this because you mentioned wanting to make your polling more instant).
