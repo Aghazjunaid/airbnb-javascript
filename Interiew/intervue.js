@@ -29,6 +29,36 @@ function ParentComponent() {
 
 export default ParentComponent;
 
+//or
+import React, { useRef, useImperativeHandle, forwardRef } from 'react';
+
+const ChildComponent = forwardRef((props, ref) => {
+  useImperativeHandle(ref, () => ({
+    triggerChild() {
+      console.log('Child component triggered');
+    }
+  }));
+
+  return <div>Child Component</div>;
+});
+
+function ParentComponent() {
+  const childRef = useRef();
+
+  const handleClick = () => {
+    childRef.current.triggerChild();
+  };
+
+  return (
+    <div onClick={handleClick}>
+      Parent Component
+      <ChildComponent ref={childRef} />
+    </div>
+  );
+}
+
+export default ParentComponent;
+
 
 3. create 1000*1000 grids and every grids as a child component in react and when i click on those grids it's value will get chnaged and every time we should know how many grids got selected and optimise the rerenders
   import React, { useState, useMemo } from 'react';
