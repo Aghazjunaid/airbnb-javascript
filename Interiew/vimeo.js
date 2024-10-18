@@ -30,3 +30,33 @@ let arr = [1, 2, 3, 4, 5];
 let rotations = 2;
 let result = rotateArray(arr, rotations);
 console.log(result); // Output: [4, 5, 1, 2, 3]
+
+<p id="help">Help message</p>
+<p>E-mail: <input type="text" id="email" name="email"></p>
+<p>Name: <input type="text" id="name" name="name"></p>
+<p>Age: <input type="text" id="age" name="age"></p>
+
+function showHelp(help) {
+  document.getElementById('help').innerHTML = help;
+}
+
+function setupHelp() {
+  var helpText = [
+      {'id': 'email', 'help': 'Your e-mail address'},
+      {'id': 'name', 'help': 'Your full name'},
+/*       {'id': 'age', 'help': 'Your age (you must be over 16)'}
+       */    ];
+
+  for (let i = 0; i < helpText.length; i++) {
+    var item = helpText[i];
+    document.getElementById(item.id).onfocus = function(e) {
+    console.log(e.target.name)
+    let inputName = e.target.name;
+    let 
+    if()
+      showHelp(item.help);
+    }
+  }
+}
+
+setupHelp();
