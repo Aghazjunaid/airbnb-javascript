@@ -82,3 +82,39 @@ console.log(findPath(obj, 'a.b.j')); //false
 console.log(findPath(obj, 'a.b.j.k')); //undefined
 console.log(findPath(obj, 'a.k')); //null
 
+
+const inputArray = [
+    {
+      a: [1, 2, 3, "text"],
+    },
+    [[1, 2, 3, { a: [1, 2, 3, "text"] }]],
+    [2, 4, 5],
+    9
+];
+
+
+const result = [];
+
+function rec(arr){
+  
+  for(let i=0;i<arr.length;i++){
+    if(typeof arr[i] == 'object'){
+      if(Array.isArray(arr[i])){
+        rec(arr[i])
+      } else {
+        Object.values(arr[i]).forEach(rec);
+      }
+    } else if(typeof arr[i] == 'number') {
+      result.push(arr[i])
+    }
+  }
+}
+
+rec(inputArray)
+console.log(result); 
+// [
+//   1, 2, 3, 1, 2, 3,
+//   1, 2, 3, 2, 4, 5,
+//   9
+// ]
+
