@@ -100,6 +100,38 @@ let res = users.reduce((acc,cur) => {
 
   console.log(res)
 
+//method - 4
+ const obj = {};
+  for(let i in orders){
+    if(orders[i].customerId in obj){
+      obj[orders[i].customerId].push({
+          orderId: orders[i].id,
+          productName: orders[i].name,
+          productPrice: orders[i].price,
+      })
+    } else {
+      obj[orders[i].customerId] = [{
+          orderId: orders[i].id,
+          productName: orders[i].name,
+          productPrice: orders[i].price,
+      }]
+    }
+  }
+  
+  const result = [];
+  for(let i=0;i<users.length;i++){
+    let arr = {
+      userId: users[i].id,
+      userName: users[i].name,
+      orders: []
+    };
+    if(users[i].id in obj){
+      arr.orders.push(obj[users[i].id])
+    }
+    result.push(arr)
+  }
+  
+  console.log(JSON.stringify(result));
 
   const result = [
     {
