@@ -128,3 +128,86 @@ app.post('/sum',(req,res) => {
 app.listen(3000,() => {
   console.log('server is running on 3000 port')
 })
+
+//3
+const express = require('express');
+const app = express();
+
+const rateLimit = (options) => {
+    const {windowMs, max} = options;
+    const request = new Map();
+
+    return (req,res,next) => {
+        const key = req.ip;
+        const now = Date.now();
+        if(!request.has(key)){
+            request.set(key, {count: 1, startTime: now});
+        } else {
+            const requestData = request.get(key);
+            const timePassed = now - requestData.startTime;
+            if(timePassed < windowMs){
+                if(requestData.count > max){
+                    return res.status(429).send('Too many requests, please try after some time');
+                } else {
+                    requestData.count += 1;
+                }
+            } else {
+                request.set(key, {count: 1, startTime: now});
+            }
+        }
+        console.log(request);
+        next()
+    }
+}
+
+const limiter = rateLimit({
+    windowMs : 60 * 1000,
+    max : 10
+})
+
+app.use(limiter);
+
+app.get('/', (req,res) => {
+    res.send('hello from server');
+})
+
+app.listen(3000,() => {
+    console.log('server is running at 3000')
+})
+
+//4
+
+
+room
+startTime
+endTime
+city
+
+
+
+City Table:
+id,
+name,
+
+
+Hotel Table:
+id,
+city,
+name,
+
+
+room table;
+hotel,
+id,
+type,
+description,
+image,
+is_occupied,
+startTime,
+endTime,
+
+select hotel.name,room.description,  from hotel
+inner join city on city.id = hotel.city
+inner join room on room.hotel = hotel.id
+where room.is_occupied = false and room.startTime < startTime and room.endTime > endTime
+and city.name = city
