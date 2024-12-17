@@ -125,3 +125,16 @@ db={
   ]
 }
 write join in this
+
+
+Let there is a character set - 'a', 'b', 'c', 'd'. How many unique words can be formed using the character set (print them) and just to keep in mind no character should repeat in the word. The example should come up like abcd, cbad etc.
+Catches - 1. All words should be unique, The length of word should match the array length, there should not be duplication of characters in any formulated words.
+
+Given a number N. Find the minimum number of operations required to reach N starting from 0. You have 2 operations available:
+Double the number
+Add one to the number
+ 
+Input - 8
+Output - 4
+ 
+Steps:- 0 + 1 = 1 --> 1 + 1 = 2 --> 2 * 2 = 4 --> 4 * 2 = 8.
