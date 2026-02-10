@@ -124,7 +124,10 @@ interface Items {
       "qty": number
 }
 
-type PaymentStatus = "SUCCESS" | "FAILED";
+type PaymentStatus = "SUCCESS" | "FAILED"; //Union
+"SUCCESS" → literal
+"FAILED" → literal
+Entire thing → union of literals
 
 interface Payment {
     mode : string,
