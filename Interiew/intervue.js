@@ -113,3 +113,63 @@ function Grid() {
 export default Grid;
 
 
+//12 feb 2026
+1. Promise
+2. map polyfill
+3.
+const xyz = ` mark     Johansson waffle    80 2
+ mark   Johansson blender    200    1
+    mark   Johansson knife    10 4
+ Nikita    Smith waffle    80    2
+      Nikita    Smith    blender    200 1
+ Nikita    Smith knife 10 4 `;
+
+
+// const obj = {
+//     "mark Johansson": [
+//         {  "name": "waffle",  "price": "80",  "quantity": "2"  },
+//         {  "name": "blender",  "price": "200",  "quantity": "1"  },
+//         {  "name": "knife",  "price": "10",  "quantity": "4"  }
+
+//     ],
+//     "Nikita Smith": [
+//         {  "name": "waffle",  "price": "80",  "quantity": "2"  },
+//         {  "name": "blender",  "price": "200",  "quantity": "1"  },
+//         {  "name": "knife",  "price": "10",  "quantity": "4"  }
+//     ]
+// }
+
+// [ 'mark', 'Johansson', 'waffle', '80', '2' ]
+// [ 'mark', 'Johansson', 'blender', '200', '1' ]
+// [ 'mark', 'Johansson', 'knife', '10', '4' ]
+// [ 'Nikita', 'Smith', 'waffle', '80', '2' ]
+// [ 'Nikita', 'Smith', 'blender', '200', '1' ]
+// [ 'Nikita', 'Smith', 'knife', '10', '4' ]
+
+let obj = {};
+let modifiedXyz = xyz.split('\n');
+let arr = [];
+
+for(let i=0;i<modifiedXyz.length;i++){
+    arr.push(modifiedXyz[i].split(' ').filter(Boolean))
+}
+
+for(let i=0;i<arr.length;i++){
+    if(`${arr[i][0]} ${arr[i][1]}` in obj){
+        obj[`${arr[i][0]} ${arr[i][1]}`].push({
+            name : arr[i][2],
+            price : arr[i][3],
+            quanity : arr[i][4]
+        })
+    } else {
+        obj[`${arr[i][0]} ${arr[i][1]}`] = [{
+            name : arr[i][2],
+            price : arr[i][3],
+            quanity : arr[i][4]
+        }]
+    }
+}
+
+console.log(obj)
+
+
