@@ -3,6 +3,15 @@
 1. Implement **infinite currying**
 *You are expected to design a function that keeps returning another function until no argument is passed. This tests your understanding of closures, function chaining, and how values are preserved across calls.*
 `sum(1)(2)(3)...() // 6`
+function sum(a){
+  return function(b){
+    if(b) return sum(a+b)
+    else return a
+  }
+}
+
+console.log(sum(1)(2)(3)(4)()); //6
+
 2. Create a **counter using closures** with increment, decrement, and reset.
 *Tests your ability to create private state without classes and avoid global variables.*
     
@@ -13,6 +22,9 @@
     console.log(counter.increment()); // 7
     console.log(counter.decrement()); // 6
     console.log(counter.reset());  // 5`
+
+
+
     
 3. Implement a **once() function** that runs only the first time.
 Common utility problem that checks closure usage and side-effect control.
