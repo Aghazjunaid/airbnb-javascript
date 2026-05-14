@@ -28,7 +28,8 @@ class LRUCache {
     this.capacity = capacity;
     this.map = new Map();
   }
-
+      
+//pahle check karo data hai ya ni -> then delete karo -> the phr add kro to make it most recent
   get(key) {
     if (!this.map.has(key)) return -1;
 
@@ -41,6 +42,7 @@ class LRUCache {
     return value;
   }
 
+// agar data exist karta hai to delete karo -> set karo -> agar capacity full ho gya hai to oldest delete kardo
   put(key, value) {
     if (this.map.has(key)) {
       this.map.delete(key);
