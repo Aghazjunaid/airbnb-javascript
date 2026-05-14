@@ -21,7 +21,9 @@ console.log('Task 3 completed');
 s1 = "My name is X Y Z"
  
 s1output = "Z Y X is name My"
- 
+let result =  s1.split(' ').reverse().join(' ')
+console.log(result)
+
 Reverse the ordering of words in a String
  
 consider an array let arr = [1, 2, 3]. Without destructuring, if you wanted to assign these values to separate variables, how we can do it also With destructuring, how we can achieve the same result
@@ -41,8 +43,8 @@ let myFunc = {
   console.log(`Welcome to, ${this.name}`);
  }
 };
-myFunc.regFunc();
-myFunc.arrowFunc();
+myFunc.regFunc(); //Welcome to Full Stack Tutorials
+myFunc.arrowFunc(); //undefined
  
 const obj = {name:"Sridhar", address:"BTM", city:"Bangalore"};
  
