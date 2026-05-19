@@ -15,6 +15,24 @@ myFlat(arr)
 console.log(result) //[1, 2, 3, 4,5, 6, 7]
 
 
+const arr = [1,[2,3,6],7]
+
+function flatt(arr, res) {
+  for (let i = 0; i < arr.length; i++) {
+
+    if (Array.isArray(arr[i])) {
+      flatt(arr[i], res)
+    } else {
+      res.push(arr[i])
+    }
+
+  }
+
+  return res
+}
+
+console.log(flatt(arr, [])) //[ 1, 2, 3, 6, 7 ]
+
 //Deep copy
 const clone = structuredClone(original);
 //OR
