@@ -65,6 +65,32 @@ newObj.a.k = 5;
 
 console.log(obj) //{ a: { b: { c: 12, j: false }, k: 5 } }
 
+var obj = {
+    a: {
+        b: {
+            c: 12,
+            j: false
+        },
+        k: null
+    }
+};
+
+
+function deepCopy(src,map) {
+  
+  for(let [key,value] of Object.entries(src)){
+    if(typeof key === 'object'){
+      deepCopy(value,map)
+    } else {
+      map[key] = value
+    }
+  }
+
+  return map
+}
+
+console.log(deepCopy(obj,{}))
+
 //Find Path
 var obj = {
     a: {
