@@ -49,17 +49,73 @@ console.log(sum(1)(2)(3)(4)()); //6
 Common utility problem that checks closure usage and side-effect control.
 `//example`
     
-    `const init = once(() => {
+        function once(cb){
+      let called = false;
+      
+      return function(){
+        
+       if(!called){
+         called = true
+         return cb()
+       }
+      
+      }
+    }
+    
+    const init = once(() => {
     console.log("Initialized");
     return 42;
-    });`
+    });
     
-    `init(); // "Initialized"
+    init(); // "Initialized"
     init(); // nothing
-    init(); // nothing`
+    init(); // nothing
     
 4. Write a **deep copy polyfill**
 *You must clone nested objects without sharing references. Interviewers look for correct handling of arrays, special objects, and circular references.*
+function deepCopy(obj, map = new WeakMap()) {
+
+  // primitive values
+  if (obj === null || typeof obj !== "object") {
+    return obj;
+  }
+
+  // circular reference handling
+  if (map.has(obj)) {
+    return map.get(obj);
+  }
+
+  // array handling
+  const copy = Array.isArray(obj) ? [] : {};
+
+  // store reference
+  map.set(obj, copy);
+
+  for (let key in obj) {
+
+    copy[key] = deepCopy(obj[key], map);
+
+  }
+
+  return copy;
+}
+
+const user = {
+  name: "Aghaz",
+  address: {
+    city: "Delhi"
+  },
+  skills: ["JS", "Node"]
+};
+
+const cloned = deepCopy(user);
+
+cloned.address.city = "Mumbai";
+
+console.log(user.address.city);
+console.log(cloned.address.city);
+
+  
 5. Implement **deep comparison** of two nested objects.
 6. Flatten a **nested** object
 `{ a: { b: { c: 1 }}} → { "a.b.c": 1 }`
