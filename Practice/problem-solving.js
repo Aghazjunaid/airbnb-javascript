@@ -14,16 +14,35 @@ console.log(sum(1)(2)(3)(4)()); //6
 
 2. Create a **counter using closures** with increment, decrement, and reset.
 *Tests your ability to create private state without classes and avoid global variables.*
+
+    function createCounter(initialValue){
+      let count = initialValue;
+      
+      return {
+        increment() {
+          count++
+          return count
+        },
+        
+        decrement(){
+          count--
+          return count
+        },
+        
+        reset(){
+          count = initialValue
+          return count
+        }
+      }
+    }
     
-    `// example
-    const counter = createCounter(5);`
-    
-    `console.log(counter.increment()); // 6
+    // example
+    const counter = createCounter(5);
+    console.log(counter)
+    console.log(counter.increment()); // 6
     console.log(counter.increment()); // 7
     console.log(counter.decrement()); // 6
-    console.log(counter.reset());  // 5`
-
-
+    console.log(counter.reset());  // 5
 
     
 3. Implement a **once() function** that runs only the first time.
