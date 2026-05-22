@@ -117,8 +117,102 @@ console.log(cloned.address.city);
 
   
 5. Implement **deep comparison** of two nested objects.
+function deepEqual(obj1, obj2) {
+
+  // same reference or primitive equality
+  if (obj1 === obj2) {
+    return true;
+  }
+
+  // null check
+  if (
+    obj1 === null ||
+    obj2 === null
+  ) {
+    return false;
+  }
+
+  // type check
+  if (
+    typeof obj1 !== "object" ||
+    typeof obj2 !== "object"
+  ) {
+    return false;
+  }
+
+  // keys
+  const keys1 = Object.keys(obj1);
+  const keys2 = Object.keys(obj2);
+
+  // different number of keys
+  if (keys1.length !== keys2.length) {
+    return false;
+  }
+
+  // recursive comparison
+  for (let key of keys1) {
+
+    if (!keys2.includes(key)) {
+      return false;
+    }
+
+    if (!deepEqual(obj1[key], obj2[key])) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+const A = {
+  name: "Aghaz",
+  address: {
+    city: "Delhi"
+  }
+};
+
+const B = {
+  name: "Aghaz",
+  address: {
+    city: "Delhi"
+  }
+};
+
+console.log(deepEqual(A, B)); //true
+
+
 6. Flatten a **nested** object
 `{ a: { b: { c: 1 }}} → { "a.b.c": 1 }`
+
+const obj = {
+  user: {
+    name: "Aghaz",
+    address: {
+      city: "Delhi"
+    }
+  }
+};
+
+
+function flattenObject(obj,parent,result){
+  for(let [key,value] of Object.entries(obj)){
+    
+    let newKey = parent
+      ? `${parent}.${key}`
+      : key;
+    
+    if(typeof value === 'object' && value != null ){
+      flattenObject(obj[key],newKey,result)
+    } else{
+      result[newKey] = value
+    }
+  }
+  
+  return result
+}
+console.log(flattenObject(obj,'',{})); //{ 'user.name': 'Aghaz', 'user.address.city': 'Delhi' }
+
+
 7. Create an **object from a string path**
 `"a.b.c=10" → { a: { b: { c: 10 }}}`
 8. Implement **debounce()**.
