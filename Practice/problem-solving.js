@@ -215,9 +215,81 @@ console.log(flattenObject(obj,'',{})); //{ 'user.name': 'Aghaz', 'user.address.c
 
 7. Create an **object from a string path**
 `"a.b.c=10" → { a: { b: { c: 10 }}}`
+
+function createObject(str){
+  let [path,value] = str.split('=')
+  let arr = path.split('.')
+  console.log(arr)
+  let obj = {}
+  
+  let current = obj;
+  
+  for(let i=0;i<arr.length;i++){
+    
+    if(i === arr.length -1){
+      current[arr[i]] = value
+    } else {
+      current[arr[i]] = {}
+      
+      current = current[arr[i]]
+    }
+  }
+
+  return obj  
+}
+
+console.log(
+  createObject("a.b.c=10") //{ a: { b: { c: '10' } } }
+);
+
 8. Implement **debounce()**.
+function debounce(cb,delay){
+  let timer = null;
+  
+  return function(...args){
+    if(timer) clearTimeout(timer);
+    
+    timer = setTimeout(function() {
+      cb(...args)
+    }, delay);
+  }
+}
+
+const search = debounce((text) => {
+  console.log("Searching:", text);
+}, 2000);
+
+search("a");
+search("ab");
+search("abc"); //abc
+
 9. Implement **throttle()**.
+Throttle limits function execution to once per specified interval.
+  
+function throttle(cb,delay){
+  let lastCall = 0;
+  
+  return function(...args){
+    let now = Date.now();
+    
+    if(now - lastCall >= delay){
+
+      lastCall = now;
+      cb(...args);
+    }
+  }
+}
+
+const log = throttle(() => {
+  console.log("Called");
+}, 1000);
+
+setInterval(() => {
+  log();
+}, 200);
+  
 10. **Flatten an array** without using `Array.prototype.flat().` 
+
 11. Design a **chainable API**.
 `computeAmount().lacs(10).crore(2).valueOf()` 
 12. Implement a **Browser History class**.
