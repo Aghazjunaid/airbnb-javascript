@@ -292,6 +292,28 @@ setInterval(() => {
 
 11. Design a **chainable API**.
 `computeAmount().lacs(10).crore(2).valueOf()` 
+function computeAmount(){
+  return {
+    total: 0,
+    lacs(num) {
+      this.total += num* 100000
+      return this //“return this same object ko wapas bhejta hai taki next method chain ho sake.”
+    },
+    thousand(num) {
+      this.total += num* 1000
+      return this //“return this same object ko wapas bhejta hai taki next method chain ho sake.”
+    },
+    valueOf(){
+      return this.total
+    }
+  }
+}
+const result = computeAmount()
+  .lacs(10)
+  .thousand(5)
+  .valueOf();
+console.log(result); //1005000
+
 12. Implement a **Browser History class**.
 `//example` 
     
