@@ -315,16 +315,57 @@ const result = computeAmount()
 console.log(result); //1005000
 
 12. Implement a **Browser History class**.
-`//example` 
-    
-    `const browser = new BrowserHistory("home");`
-    
-    `browser.visit("page1");
-    browser.visit("page2");
-    browser.back(1);      // "page1"
-    browser.forward(1);   // "page2"
-    browser.getCurrentPage(); // "page2"` 
-    
+
+class BrowserHistory {
+
+  constructor(homepage) {
+
+    this.history = [homepage];
+
+    this.current = 0;
+  }
+
+  visit(page) {
+
+    // remove forward history
+    this.history = this.history.slice(0, this.current + 1);
+
+    this.history.push(page);
+
+    this.current++;
+  }
+
+  back(steps) {
+
+    this.current = Math.max(0, this.current - steps);
+
+    return this.history[this.current];
+  }
+
+  forward(steps) {
+
+    this.current = Math.min(
+      this.history.length - 1,
+      this.current + steps
+    );
+
+    return this.history[this.current];
+  }
+
+  getCurrentPage() {
+
+    return this.history[this.current];
+  }
+}
+
+const browser = new BrowserHistory("home");
+browser.visit("page1");
+browser.visit("page2");
+console.log(browser.back(1));
+console.log(browser.forward(1));
+console.log(browser.getCurrentPage());
+
+
 13. Implement an **EventEmitter / Pub-Sub system**.
 **VVVIMP**
 14. Implement **retry logic with exponential backoff**.
